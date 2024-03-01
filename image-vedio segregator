@@ -1,0 +1,43 @@
+import os
+import re
+
+def segregate_links(file_path):
+    
+    if not os.path.exists(file_path):
+        print("File not found!")
+        return
+
+    
+    image_pattern = re.compile(r'\b(?:https?://\S+\.(?:jpg|jpeg|png|gif))\b', re.IGNORECASE)
+    video_pattern = re.compile(r'\b(?:https?://\S+\.(?:mp4|avi|mov|mkv))\b', re.IGNORECASE)
+
+   
+    image_links = []
+    video_links = []
+
+    
+    with open(file_path, 'r') as file:
+        for line in file:
+            
+            image_match = re.search(image_pattern, line)
+            video_match = re.search(video_pattern, line)
+
+            
+            if image_match:
+                image_links.append(image_match.group())
+            if video_match:
+                video_links.append(video_match.group())
+
+    
+    print("Image Links:")
+    for link in image_links:
+        print(link)
+    
+    print("\nVideo Links:")
+    for link in video_links:
+        print(link)
+
+
+if __name__ == "__main__":
+    file_path = input("Enter the path to the downloaded file: ")
+    segregate_links(file_path)
